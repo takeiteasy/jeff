@@ -35,11 +35,15 @@ extern "C" {
 #include "sokol_app.h"
 #include "sokol_time.h"
 #include <string.h>
-#include <stdargs.h>
+#include <stdarg.h>
 #include <stdint.h>
 
+// Clear the input state
 void sokol_input_clear(void);
-void sokol_input_handler(sapp_event_t *event);
+// Assign sapp_desc.event_cb = sokol_input_handler
+void sokol_input_handler(const sapp_event *event);
+// Call this at the end of sapp frame callback
+void sokol_input_update(void);
 
 int sapp_is_key_down(int key);
 int sapp_is_key_held(int key);
@@ -109,17 +113,17 @@ void sokol_input_clear(void) {
     memset(&current, 0, sizeof(input_t));
 }
 
-void sokol_input_handler(const sapp_event_t* event) {
+void sokol_input_handler(const sapp_event* e) {
     switch (e->type) {
         case SAPP_EVENTTYPE_KEY_UP:
         case SAPP_EVENTTYPE_KEY_DOWN:
-            current.keys[e->key_code].down = SAPP_EVENTTYPE_KEY_DOWN;
+            current.keys[e->key_code].down = e->type == SAPP_EVENTTYPE_KEY_DOWN;
             current.keys[e->key_code].timestamp = stm_now();
             current.modifier = e->modifiers;
             break;
         case SAPP_EVENTTYPE_MOUSE_UP:
         case SAPP_EVENTTYPE_MOUSE_DOWN:
-            current.buttons[e->mouse_button].down = SAPP_EVENTTYPE_MOUSE_DOWN;
+            current.buttons[e->mouse_button].down = e->type == SAPP_EVENTTYPE_MOUSE_DOWN;
             current.buttons[e->mouse_button].timestamp = stm_now();
             current.modifier = e->modifiers;
             break;
@@ -134,6 +138,11 @@ void sokol_input_handler(const sapp_event_t* event) {
         default:
             break;
     }
+}
+
+void sokol_input_update(void) {
+    memcpy(&prev, &current, sizeof(input_t));
+    current.scroll.x = current.scroll.y = 0.f;
 }
 
 int sapp_is_key_down(int key) {
