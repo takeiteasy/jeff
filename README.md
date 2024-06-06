@@ -5,6 +5,8 @@
 
 A small collection of utility libraries for [sokol](https://github.com/floooh/sokol/)
 
+All libraries are single-header, so `SOKOL_HELPER_IMPL` must be defined (***once***) before including any headers.
+
 ## Libraries
 
 | File                     | Description                                       |
