@@ -1,5 +1,8 @@
 /* sokol_input.h -- https://github.com/takeiteasy/sokol_helpers
  
+ Very basic input manager that keeps track of keys state, mouse position, mouse-
+ delta position, mouse buttons state and mouse wheel state. (for now)
+ 
  The MIT License (MIT)
  
  Copyright (c) 2024 George Watson
@@ -29,9 +32,6 @@
 extern "C" {
 #endif
 
-#ifdef SOKOL_IMPL
-#undef SOKOL_IMPL
-#endif
 #include "sokol_app.h"
 #include "sokol_time.h"
 #include <string.h>
@@ -41,6 +41,7 @@ extern "C" {
 // Clear the input state
 void sokol_input_clear(void);
 // Assign sapp_desc.event_cb = sokol_input_handler
+// Or just pass the event to it inside the callback
 void sokol_input_handler(const sapp_event *event);
 // Call this at the end of sapp frame callback
 void sokol_input_update(void);

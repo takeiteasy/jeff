@@ -1,5 +1,8 @@
 /* sokol_input.h -- https://github.com/takeiteasy/sokol_helpers
  
+ Simple wrapper for loading textures using `stb_image.h` and `qoi.h` into and
+ sokol sg_image object
+ 
  The MIT License (MIT)
  
  Copyright (c) 2024 George Watson
