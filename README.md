@@ -15,8 +15,8 @@ All libraries are single-header, so `SOKOL_HELPER_IMPL` must be defined (***once
 | **sokol_input.h**        | Basic input manager (keyboard, mouse, etc)        |
 | **sokol_scalefactor.h**§ | Function to return the monitors scale factor      |
 
-* \* Relies on third-party library (located in `deps/`)
-* § Platform specific (safe to include on unspecified platforms)
+* **\*** Relies on third-party library (located in `deps/`)
+* **§** Platform specific (safe to include on unspecified platforms)
 
 ## LICENSE
 ```
