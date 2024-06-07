@@ -11,10 +11,12 @@ All libraries are single-header, so `SOKOL_HELPER_IMPL` must be defined (***once
 
 | File                     | Description                                       |
 | ------------------------ | --------------------------------------------------|
+| **sokol_generic.h**†     | _Generic wrappers for sokol types                 |
 | **sokol_img.h**\*        | Load textures from `stb_image.h` + `qoi.h`        |
 | **sokol_input.h**        | Basic input manager (keyboard, mouse, etc)        |
 | **sokol_scalefactor.h**§ | Function to return the monitors scale factor      |
 
+* **†** Relies on modern compiler extensions or C11+ features
 * **\*** Relies on third-party library (located in `deps/`)
 * **§** Platform specific (safe to include on unspecified platforms)
 

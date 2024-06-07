@@ -37,6 +37,8 @@ extern "C" {
 sg_image sg_empty_texture(int width, int height);
 sg_image sg_load_texture_path(const char *path);
 sg_image sg_load_texture_memory(unsigned char *data, int data_size);
+sg_image sg_load_texture_path_ex(const char *path, int *width, int *height);
+sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *width, int *height);
 
 #if defined(__cplusplus)
 }
@@ -77,7 +79,7 @@ static const char* file_extension(const char *path) {
     return !dot || dot == path ? NULL : dot + 1;
 }
 
-sg_image sg_load_texture_path(const char *path) {
+sg_image sg_load_texture_path_ex(const char *path, int *width, int *height) {
     assert(does_file_exist(path));
 #define VALID_EXTS_SZ 11
     static const char *valid_extensions[VALID_EXTS_SZ] = {
@@ -110,7 +112,7 @@ sg_image sg_load_texture_path(const char *path) {
     unsigned char *data = malloc(sz * sizeof(unsigned char));
     fread(data, sz, 1, fh);
     fclose(fh);
-    sg_image result = sg_load_texture_memory(data, (int)sz);
+    sg_image result = sg_load_texture_memory_ex(data, (int)sz, width, height);
     free(data);
     return result;
 }
@@ -150,7 +152,7 @@ static int* load_texture_data(unsigned char *data, int data_size, int *w, int *h
     return buf;
 }
 
-sg_image sg_load_texture_memory(unsigned char *data, int data_size) {
+sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *width, int *height) {
     assert(data && data_size);
     int w, h;
     int *tmp = load_texture_data(data, data_size, &w, &h);
@@ -164,6 +166,18 @@ sg_image sg_load_texture_memory(unsigned char *data, int data_size) {
     };
     sg_update_image(texture, &desc);
     free(tmp);
+    if (width)
+        *width = w;
+    if (height)
+        *height = h;
     return texture;
+}
+
+sg_image sg_load_texture_path(const char *path) {
+    return sg_load_texture_path_ex(path, NULL, NULL);
+}
+
+sg_image sg_load_texture_memory(unsigned char *data, int data_size) {
+    return sg_load_texture_memory_ex(data, data_size, NULL, NULL);
 }
 #endif
