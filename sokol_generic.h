@@ -34,6 +34,8 @@ extern "C" {
 
 #include "sokol_gfx.h"
 
+// NOTE: This library relies on the _Generic macro (introduced in C11)
+
 #ifdef __has_extension
 #if !__has_extension(c_generic_selections)
 #error "This library relies on _Generic"
@@ -51,7 +53,7 @@ extern "C" {
       const sg_sampler_desc *: sg_make_sampler,                                \
       const sg_shader_desc *: sg_make_shader,                                  \
       const sg_pipeline_desc *: sg_make_pipeline,                              \
-      const sg_attachments_desc *: sg_make_attachments, )(OBJ)
+      const sg_attachments_desc *: sg_make_attachments)(OBJ)
 
 #define sg_destroy(OBJ)                                                        \
   _Generic((OBJ),                                                              \
