@@ -123,7 +123,7 @@ static int check_if_qoi(unsigned char *data) {
     return (data[0] << 24 | data[1] << 16 | data[2] << 8 | data[3]) == QOI_MAGIC;
 }
 
-#define RGBA(R, G, B, A) (((unsigned int)(A) << 24) | ((unsigned int)(R) << 16) | ((unsigned int)(G) << 8) | (B))
+#define RGBA(R, G, B, A) (((unsigned int)(A) << 24) | ((unsigned int)(B) << 16) | ((unsigned int)(G) << 8) | (R))
 
 static int* load_texture_data(unsigned char *data, int data_size, int *w, int *h) {
     assert(data && data_size);
