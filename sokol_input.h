@@ -148,7 +148,6 @@ void sokol_input_handler(const sapp_event* e) {
         case SAPP_EVENTTYPE_MOUSE_DOWN:
             current.buttons[e->mouse_button].down = e->type == SAPP_EVENTTYPE_MOUSE_DOWN;
             current.buttons[e->mouse_button].timestamp = stm_now();
-            current.modifier = e->modifiers;
             break;
         case SAPP_EVENTTYPE_MOUSE_MOVE:
             current.cursor.x = e->mouse_x;
