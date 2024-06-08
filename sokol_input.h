@@ -261,7 +261,7 @@ int sapp_modifier_check_only(int n, ...) {
     va_start(args, n);
     int result = 0;
     for (int i = 0; i < n; i++)
-        result &= va_arg(args, int);
+        result |= va_arg(args, int);
     va_end(args);
     return result == current.modifier;
 }
