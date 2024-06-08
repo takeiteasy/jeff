@@ -47,10 +47,16 @@ void sokol_input_handler(const sapp_event *event);
 void sokol_input_update(void);
 
 int sapp_is_key_down(int key);
+// This will be true if a key is held for more than 1 second
+// TODO: Make the duration configurable
 int sapp_is_key_held(int key);
+// Returns true if key is down this frame and was up last frame
 int sapp_was_key_pressed(int key);
+// Returns true if key is up and key was down last frame
 int sapp_was_key_released(int key);
+// If any of the keys passed are not down returns false
 int sapp_are_keys_down(int n, ...);
+// If none of the keys passed are down returns false
 int sapp_any_keys_down(int n, ...);
 int sapp_is_button_down(int button);
 int sapp_is_button_held(int button);
@@ -59,6 +65,19 @@ int sapp_was_button_released(int button);
 int sapp_are_buttons_down(int n, ...);
 int sapp_any_buttons_down(int n, ...);
 int sapp_has_mouse_move(void);
+// Checks if only passed modifier flags are on, if another modifier is flagged
+// but not passed to the function, it will return false. For example, if the
+// user is holding down, CTRL and SHIFT, check_only(CTRL, SHIFT) returns true.
+// However, if the user is holding down CTRL, SHIFT and ALT,
+// check_only(CTRL, SHIFT) would return false. This obviously also includes
+// situations like CTRL, SHIFT is down check(CTRL) would return false.
+int sapp_modifier_check_only(int n, ...);
+// Checks if each modifier passed is down, if any are false returns false
+int sapp_modifier_check_each(int n, ...);
+// Checks if any of the modifiers are true, if none are true return false
+int sapp_modifier_check_any(int n, ...);
+// Check if modifier is down, doesn't check if other
+int sapp_modifier_check_in(int modifier);
 int sapp_cursor_x(void);
 int sapp_cursor_y(void);
 int sapp_cursor_delta_x(void);
@@ -79,6 +98,9 @@ float sapp_scroll_y(void);
 #define SAPP_ANY_KEYS_DOWN(...) sapp_any_keys_down(N_ARGS(__VA_ARGS__), __VA_ARGS__)
 #define SAPP_ARE_BUTTONS_DOWN(...) sapp_are_buttons_down(N_ARGS(__VA_ARGS__), __VA_ARGS__)
 #define SAPP_ANY_BUTTONS_DOWN(...) sapp_any_buttons_down(N_ARGS(__VA_ARGS__), __VA_ARGS__)
+#define SAPP_MODIFIER_CHECK_ONLY(...) sapp_modifier_check_only(N_ARGS(__VA_ARGS__), __VA_ARGS__)
+#define SAPP_MODIFIER_CHECK_EACH(...) sapp_modifier_check_each(N_ARGS(__VA_ARGS__), __VA_ARGS__)
+#define SAPP_MODIFIER_CHECK_ANY(...) sapp_modifier_check_any(N_ARGS(__VA_ARGS__), __VA_ARGS__)
 
 #if defined(__cplusplus)
 }
@@ -232,6 +254,40 @@ int sapp_any_buttons_down(int n, ...) {
 BAIL:
     va_end(args);
     return result;
+}
+
+int sapp_modifier_check_only(int n, ...) {
+    va_list args;
+    va_start(args, n);
+    int result = 0;
+    for (int i = 0; i < n; i++)
+        result &= va_arg(args, int);
+    va_end(args);
+    return result == current.modifier;
+}
+
+int sapp_modifier_check_each(int n, ...) {
+    va_list args;
+    va_start(args, n);
+    for (int i = 0; i < n; i++)
+        if (!sapp_modifier_check_in(va_arg(args, int)))
+            return 0;
+    va_end(args);
+    return 1;
+}
+
+int sapp_modifier_check_any(int n, ...) {
+    va_list args;
+    va_start(args, n);
+    for (int i = 0; i < n; i++)
+        if (sapp_modifier_check_in(va_arg(args, int)))
+            return 1;
+    va_end(args);
+    return 0;
+}
+
+int sapp_modifier_check_in(int modifier) {
+    return current.modifier & modifier;
 }
 
 int sapp_has_mouse_move(void) {
