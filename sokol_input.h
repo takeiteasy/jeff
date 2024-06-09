@@ -78,6 +78,8 @@ int sapp_modifier_check_each(int n, ...);
 int sapp_modifier_check_any(int n, ...);
 // Check if modifier is down, doesn't check if other
 int sapp_modifier_check_in(int modifier);
+// Checks if there are any modifiers at all
+int sapp_any_modifiers(void);
 int sapp_cursor_x(void);
 int sapp_cursor_y(void);
 int sapp_cursor_delta_x(void);
@@ -158,6 +160,7 @@ void sokol_input_handler(const sapp_event* e) {
             current.scroll.y = e->scroll_y;
             break;
         default:
+            current.modifier = e->modifiers;
             break;
     }
 }
@@ -287,6 +290,10 @@ int sapp_modifier_check_any(int n, ...) {
 
 int sapp_modifier_check_in(int modifier) {
     return current.modifier & modifier;
+}
+
+int sapp_any_modifiers(void) {
+    return current.modifier != 0;
 }
 
 int sapp_has_mouse_move(void) {
