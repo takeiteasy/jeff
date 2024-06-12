@@ -45,7 +45,7 @@ sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *widt
 #endif
 #endif // SOKOL_HELPER_INPUT
 
-#ifdef SOKOL_HELPER_IMG
+#ifdef SOKOL_HELPER_IMPL
 #ifdef _WIN32
 #include <io.h>
 #include <dirent.h>
