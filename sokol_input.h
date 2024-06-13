@@ -84,7 +84,7 @@ int sapp_cursor_x(void);
 int sapp_cursor_y(void);
 int sapp_cursor_delta_x(void);
 int sapp_cursor_delta_y(void);
-int sapp_has_wheel_moved(void);
+int sapp_check_scrolled(void);
 float sapp_scroll_x(void);
 float sapp_scroll_y(void);
 
@@ -316,7 +316,7 @@ int sapp_cursor_delta_y(void) {
     return current.cursor.y - prev.cursor.y;
 }
 
-int sapp_has_wheel_moved(void) {
+int sapp_check_scrolled(void) {
     return current.scroll.x != 0 || current.scroll.y != 0;
 }
 
