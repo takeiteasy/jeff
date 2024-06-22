@@ -32,7 +32,9 @@
 extern "C" {
 #endif
 
-#include "sokol_gfx.h"
+#ifndef SOKOL_GFX_INCLUDED
+#error "Please include sokol_gfx.h before sokol_img.h"
+#endif
 
 sg_image sg_empty_texture(int width, int height);
 sg_image sg_load_texture_path(const char *path);

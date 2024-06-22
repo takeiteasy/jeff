@@ -32,7 +32,9 @@
 extern "C" {
 #endif
 
-#include "sokol_gfx.h"
+#ifndef SOKOL_GFX_INCLUDED
+#error "Please include sokol_gfx.h before sokol_generic.h"
+#endif
 
 // NOTE: This library relies on the _Generic macro (introduced in C11)
 

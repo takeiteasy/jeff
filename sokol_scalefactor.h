@@ -36,7 +36,9 @@
 extern "C" {
 #endif
 
-#include "sokol_app.h"
+#ifndef SOKOL_APP_INCLUDED
+#error "Please include sokol_app.h before the sokol_scalefactor.h implementation"
+#endif
 
 // returns sapp_width + scale
 int sapp_framebuffer_width(void);

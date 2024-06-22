@@ -32,8 +32,12 @@
 extern "C" {
 #endif
 
-#include "sokol_app.h"
-#include "sokol_time.h"
+#ifndef SOKOL_APP_INCLUDED
+#error "Please include sokol_app.h before the sokol_input.h implementation"
+#endif
+#ifndef SOKOL_TIME_INCLUDED
+#error "Please include sokol_time.h before the sokol_input.h implementation"
+#endif
 #include <string.h>
 #include <stdarg.h>
 #include <stdint.h>
