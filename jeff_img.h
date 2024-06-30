@@ -82,7 +82,9 @@ static const char* file_extension(const char *path) {
 }
 
 sg_image sg_load_texture_path_ex(const char *path, int *width, int *height) {
-    assert(does_file_exist(path));
+    if (!does_file_exist(path))
+        return (sg_image){.id=SG_INVALID_ID};
+    
 #define VALID_EXTS_SZ 11
     static const char *valid_extensions[VALID_EXTS_SZ] = {
         "jpg", "jpeg", "png", "bmp", "psd", "tga", "hdr", "pic", "ppm", "pgm", "qoi"

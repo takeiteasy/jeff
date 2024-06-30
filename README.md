@@ -14,6 +14,7 @@ All libraries are single-header, so `JEFF_IMPL` must be defined (***once***) bef
 | **jeff_generic.h**†      | _Generic wrappers for sokol types                 |
 | **jeff_img.h**\*         | Load textures from `stb_image.h` + `qoi.h`        |
 | **jeff_input.h**         | Basic input manager (keyboard, mouse, etc)        |
+| **jeff_png.h**           | Dependency-free png texture loader                |
 | **jeff_scalefactor.h**§  | Function to return the monitors scale factor      |
 
 * **†** Relies on modern compiler extensions or C11+ features
