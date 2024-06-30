@@ -1,4 +1,4 @@
-/* sokol_scalefactor.h -- https://github.com/takeiteasy/sokol_helpers
+/* jeff_scalefactor.h -- https://github.com/takeiteasy/jeff
  
  NOTE: This library is to address a problem on Mac with viewport sizes
        when you're using the built-in scaling. Viewports would appear at
@@ -30,14 +30,14 @@
  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#ifndef SOKOL_HELPER_SCALEFACTOR
-#define SOKOL_HELPER_SCALEFACTOR
+#ifndef JEFF_SCALEFACTOR
+#define JEFF_SCALEFACTOR
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
 #ifndef SOKOL_APP_INCLUDED
-#error "Please include sokol_app.h before the sokol_scalefactor.h implementation"
+#error "Please include sokol_app.h before the jeff_scalefactor.h implementation"
 #endif
 
 // returns sapp_width + scale
@@ -54,9 +54,9 @@ float sapp_framebuffer_scalefactor(void);
 #if defined(__cplusplus)
 }
 #endif
-#endif // SOKOL_HELPER_SCALEFACTOR
+#endif // JEFF_SCALEFACTOR
 
-#ifdef SOKOL_HELPER_IMPL
+#ifdef JEFF_IMPL
 #if defined(__APPLE__)
 #include <Cocoa/Cocoa.h>
 #endif
@@ -84,4 +84,4 @@ float sapp_framebuffer_scalefactor(void) {
     return 1.f; // I don't know if this is a thing for Windows/Linux so return 1
 #endif
 }
-#endif // SOKOL_HELPER_IMPL
+#endif // JEFF_IMPL

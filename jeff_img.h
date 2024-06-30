@@ -1,4 +1,4 @@
-/* sokol_input.h -- https://github.com/takeiteasy/sokol_helpers
+/* jeff_img.h -- https://github.com/takeiteasy/jeff
  
  Simple wrapper for loading textures using `stb_image.h` and `qoi.h` into and
  sokol sg_image object
@@ -26,8 +26,8 @@
  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#ifndef SOKOL_HELPER_IMG
-#define SOKOL_HELPER_IMG
+#ifndef JEFF_IMG
+#define JEFF_IMG
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -45,9 +45,9 @@ sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *widt
 #if defined(__cplusplus)
 }
 #endif
-#endif // SOKOL_HELPER_INPUT
+#endif // JEFF_INPUT
 
-#ifdef SOKOL_HELPER_IMPL
+#ifdef JEFF_IMPL
 #ifdef _WIN32
 #include <io.h>
 #include <dirent.h>

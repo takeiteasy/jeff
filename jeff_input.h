@@ -1,4 +1,4 @@
-/* sokol_input.h -- https://github.com/takeiteasy/sokol_helpers
+/* jeff_input.h -- https://github.com/takeiteasy/jeff
  
  Very basic input manager that keeps track of keys state, mouse position, mouse-
  delta position, mouse buttons state and mouse wheel state. (for now)
@@ -26,29 +26,29 @@
  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#ifndef SOKOL_HELPER_INPUT
-#define SOKOL_HELPER_INPUT
+#ifndef JEFF_INPUT
+#define JEFF_INPUT
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
 #ifndef SOKOL_APP_INCLUDED
-#error "Please include sokol_app.h before the sokol_input.h implementation"
+#error "Please include sokol_app.h before the jeff_input.h implementation"
 #endif
 #ifndef SOKOL_TIME_INCLUDED
-#error "Please include sokol_time.h before the sokol_input.h implementation"
+#error "Please include sokol_time.h before the jeff_input.h implementation"
 #endif
 #include <string.h>
 #include <stdarg.h>
 #include <stdint.h>
 
 // Clear the input state
-void sokol_input_clear(void);
-// Assign sapp_desc.event_cb = sokol_input_handler
+void jeff_input_clear(void);
+// Assign sapp_desc.event_cb = jeff_input_handler
 // Or just pass the event to it inside the callback
-void sokol_input_handler(const sapp_event *event);
+void jeff_input_handler(const sapp_event *event);
 // Call this at the end of sapp frame callback
-void sokol_input_update(void);
+void jeff_input_update(void);
 
 int sapp_is_key_down(int key);
 // This will be true if a key is held for more than 1 second
@@ -111,9 +111,9 @@ float sapp_scroll_y(void);
 #if defined(__cplusplus)
 }
 #endif
-#endif // SOKOL_HELPER_INPUT
+#endif // JEFF_INPUT
 
-#ifdef SOKOL_HELPER_IMPL
+#ifdef JEFF_IMPL
 typedef struct {
     int down;
     uint64_t timestamp;
@@ -137,12 +137,12 @@ typedef struct {
 
 static input_t prev, current;
 
-void sokol_input_clear(void) {
+void jeff_input_clear(void) {
     memset(&prev,    0, sizeof(input_t));
     memset(&current, 0, sizeof(input_t));
 }
 
-void sokol_input_handler(const sapp_event* e) {
+void jeff_input_handler(const sapp_event* e) {
     switch (e->type) {
         case SAPP_EVENTTYPE_KEY_UP:
         case SAPP_EVENTTYPE_KEY_DOWN:
@@ -169,7 +169,7 @@ void sokol_input_handler(const sapp_event* e) {
     }
 }
 
-void sokol_input_update(void) {
+void jeff_input_update(void) {
     memcpy(&prev, &current, sizeof(input_t));
     current.scroll.x = current.scroll.y = 0.f;
 }
@@ -332,4 +332,4 @@ float sapp_scroll_y(void) {
     return current.scroll.y;
 }
 
-#endif // SOKOL_HELPER_IMPL
+#endif // JEFF_IMPL

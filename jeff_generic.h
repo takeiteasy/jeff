@@ -1,4 +1,4 @@
-/* sokol_generic.h -- https://github.com/takeiteasy/sokol_helpers
+/* jeff_generic.h -- https://github.com/takeiteasy/jeff
 
  _Generic wrapper around sokol types, call sg_query_info(<obj>) instead of
  sg_query_buffer_info or sg_query_image_info, for example.
@@ -26,8 +26,8 @@
  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#ifndef SOKOL_HELPER_GENERIC
-#define SOKOL_HELPER_GENERIC
+#ifndef JEFF_GENERIC
+#define JEFF_GENERIC
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -66,7 +66,7 @@ extern "C" {
       sg_pipeline: sg_destroy_pipeline,                                        \
       sg_attachments: sg_destroy_attachments)(OBJ)
 
-#define sokol_helper_destroy(OBJ)                                              \
+#define sg_destroy_if_valid(OBJ)                                               \
   do {                                                                         \
     if (sg_query_state((OBJ)))                                                 \
       sg_destroy((OBJ));                                                       \
@@ -120,4 +120,4 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif
-#endif // SOKOL_HELPER_GENERIC
+#endif // JEFF_GENERIC
