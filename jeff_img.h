@@ -32,15 +32,17 @@
 extern "C" {
 #endif
 
+#include <stddef.h>
+
 #ifndef SOKOL_GFX_INCLUDED
 #error "Please include sokol_gfx.h before sokol_img.h"
 #endif
 
-sg_image sg_empty_texture(int width, int height);
+sg_image sg_empty_texture(unsigned int width, unsigned int height);
 sg_image sg_load_texture_path(const char *path);
-sg_image sg_load_texture_memory(unsigned char *data, int data_size);
-sg_image sg_load_texture_path_ex(const char *path, int *width, int *height);
-sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *width, int *height);
+sg_image sg_load_texture_memory(unsigned char *data, size_t data_size);
+sg_image sg_load_texture_path_ex(const char *path, unsigned int *width, unsigned int *height);
+sg_image sg_load_texture_memory_ex(unsigned char *data, size_t data_size, unsigned int *width, unsigned int *height);
 
 #if defined(__cplusplus)
 }
@@ -61,7 +63,7 @@ sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *widt
 #define QOI_IMPLEMENTATION
 #include "deps/qoi.h"
 
-sg_image sg_empty_texture(int width, int height) {
+sg_image sg_empty_texture(unsigned int width, unsigned int height) {
     assert(width && height);
     sg_image_desc desc = {
         .width = width,
@@ -81,7 +83,7 @@ static const char* file_extension(const char *path) {
     return !dot || dot == path ? NULL : dot + 1;
 }
 
-sg_image sg_load_texture_path_ex(const char *path, int *width, int *height) {
+sg_image sg_load_texture_path_ex(const char *path, unsigned int *width, unsigned int *height) {
     if (!does_file_exist(path))
         return (sg_image){.id=SG_INVALID_ID};
     
@@ -129,17 +131,17 @@ static int check_if_qoi(unsigned char *data) {
 
 #define RGBA(R, G, B, A) (((unsigned int)(A) << 24) | ((unsigned int)(B) << 16) | ((unsigned int)(G) << 8) | (R))
 
-static int* load_texture_data(unsigned char *data, int data_size, int *w, int *h) {
+static int* load_texture_data(unsigned char *data, size_t data_size, unsigned int *w, unsigned int *h) {
     assert(data && data_size);
     int _w, _h, c;
     unsigned char *in = NULL;
     if (check_if_qoi(data)) {
         qoi_desc desc;
-        in = qoi_decode(data, data_size, &desc, 4);
+        in = qoi_decode(data, (int)data_size, &desc, 4);
         _w = desc.width;
         _h = desc.height;
     } else
-        in = stbi_load_from_memory(data, data_size, &_w, &_h, &c, 4);
+        in = stbi_load_from_memory(data, (int)data_size, &_w, &_h, &c, 4);
     assert(in && _w && _h);
     
     int *buf = malloc(_w * _h * sizeof(int));
@@ -156,9 +158,9 @@ static int* load_texture_data(unsigned char *data, int data_size, int *w, int *h
     return buf;
 }
 
-sg_image sg_load_texture_memory_ex(unsigned char *data, int data_size, int *width, int *height) {
+sg_image sg_load_texture_memory_ex(unsigned char *data, size_t data_size, unsigned int *width, unsigned int *height) {
     assert(data && data_size);
-    int w, h;
+    unsigned int w, h;
     int *tmp = load_texture_data(data, data_size, &w, &h);
     assert(tmp && w && h);
     sg_image texture = sg_empty_texture(w, h);
@@ -181,7 +183,7 @@ sg_image sg_load_texture_path(const char *path) {
     return sg_load_texture_path_ex(path, NULL, NULL);
 }
 
-sg_image sg_load_texture_memory(unsigned char *data, int data_size) {
+sg_image sg_load_texture_memory(unsigned char *data, size_t data_size) {
     return sg_load_texture_memory_ex(data, data_size, NULL, NULL);
 }
 #endif
